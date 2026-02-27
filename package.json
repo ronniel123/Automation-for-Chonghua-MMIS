@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "cypress": "^14.5.4",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-mochawesome-reporter": "^4.0.2",
+    "cypress-xpath": "^2.0.1",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2"
+  }
+}
