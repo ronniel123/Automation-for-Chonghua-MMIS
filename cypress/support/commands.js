@@ -15,18 +15,18 @@ Cypress.Commands.add('VisitMMIS', () => {
   })
 
   Cypress.Commands.add('LoginAccount', () => {
-  cy.xpath("//input[@type='text']")
-    .should('be.visible')
-    .clear()
-    .type('JHURANO', { delay: 100 })  //Another Username: shanadmin, sibimark, JHURANO, JTARNATE
+      cy.xpath("//input[@type='text']")
+        .should('be.visible')
+        .clear()
+        .type('sibimark', { delay: 100 })  //Another Username: shanadmin, sibimark, JHURANO, JTARNATE
 
-  cy.xpath("//input[@type='password']")
-    .clear()
-    .type('Mmis@2024', { delay: 100 }) //Another Password: Mmis@1234. , Chh@12345 , Mmis@2024, Admin@1234.
-  cy.xpath("//span[@class='mud-button-label']").click() //click login
-  cy.url().should('not.include', 'login')
-  cy.wait(9000)
-  cy.screenshot('//*[@id="app"]/div[3]/div/div') //Dashboard screenshot
+      cy.xpath("//input[@type='password']")
+        .clear()
+        .type('Chh@12345', { delay: 100 }) //Another Password: Mmis@1234. , Chh@12345 , Mmis@2024, Admin@1234.
+      cy.xpath("//span[@class='mud-button-label']").click() //click login
+      cy.url().should('not.include', 'login')
+      cy.wait(9000)
+      cy.screenshot('//*[@id="app"]/div[3]/div/div') //Dashboard screenshot
 })
 
 Cypress.Commands.add('SearchPatient', () => {
@@ -38,11 +38,11 @@ Cypress.Commands.add('SearchPatient', () => {
   cy.xpath('//*[@id="app"]/div[3]/div/div/a/span').should('have.text','Add New Patient').screenshot('//*[@id="app"]/div[3]/div/div/a')
   cy.contains('h6','Search Patient').should('be.visible').screenshot('//*[@id="app"]/div[3]/div/div/div[1]/h6')
   cy.wait(2000)
-  cy.xpath('//*[@id="app"]/div[3]/div/div/div[1]/form/div/div[1]/div/div/div/input').type('Lomocso, Ronniel').screenshot('//*[@id="app"]/div[3]/div/div/div[1]/form/div/div[1]')
+  cy.xpath('//*[@id="app"]/div[3]/div/div/div[1]/form/div/div[1]/div/div/div/input').type('Lomocso, Ronniel', {delay:100}).screenshot('//*[@id="app"]/div[3]/div/div/div[1]/form/div/div[1]')
   cy.xpath('//*[@id="app"]/div[3]/div/div/div[1]/form/div/div[3]/button/span').click()
   cy.wait(5000).screenshot('//*[@id="app"]/div[3]/div/div/div[2]') //Screenshot on the Patient List
-  cy.xpath('//*[@id="app"]/div[3]/div/div/div[2]/div/div[1]/table/thead/tr/th[2]/div').should('have.text','PATIENT NO')
-    .then(($el) => {
+    cy.xpath('//*[@id="app"]/div[3]/div/div/div[2]/div/div[1]/table/thead/tr/th[2]/div').should('have.text','PATIENT NO')
+      .then(($el) => {
       if ($el.length > 0) {
         // Data exists → take screenshot
         cy.screenshot('//*[@id="app"]/div[3]/div/div/div[2]/div/div[1]/table/tbody/tr/td[2]')
@@ -63,6 +63,16 @@ Cypress.Commands.add('SearchPatient', () => {
     })
 
 })
+Cypress.Commands.add('MergePatient', () => {
+  cy.xpath("//div[contains(text(),'Merge Patient')]").click()
+   cy.get('input[placeholder="Enter Lastname"]')
+  .should('be.visible')
+  .type('Lomocso', {delay: 100})
+  cy.get('input[placeholder="Enter Firstname"]')
+  .should('be.visible')
+  .type('Ronniel', {delay: 100})
+  cy.contains('span', 'Search').click().wait(5000).screenshot('//*[@id="app"]/div[3]/div/div/div[2]')
+})
 
 Cypress.Commands.add('BillingManagement', function(){
   cy.wait(1000)
@@ -72,15 +82,15 @@ Cypress.Commands.add('BillingManagement', function(){
     .screenshot('//*[@id="app"]/div[3]/div/div')
     .wait(2000)
   cy.xpath("//input[@placeholder='Account No']").clear().type('OPDZ00009898', { delay: 100 }).type('{enter}')
-    .wait(5000)
+    .wait(8000)
   cy.contains('span','Credit Memo/Reversal').click()
   cy.xpath("//div[@class='mud-nav-link-text'][normalize-space()='Adjustment']").click()
     .wait(2000)
   cy.xpath("//input[@placeholder='Patient No']").should('be.visible')
     .wait(2000)
   cy.xpath("//input[@placeholder='Select Department']").click( {force:true}).wait(2000).screenshot()
-  cy.contains('p','Billing').should('be.visible').click( {force:true} )
-  cy.xpath('//*[@id="_897493c9a0b146cc832c328a333708a5"]/div[2]/div[4]/div/form/div[3]/div[2]/div[1]/form/div/div[1]/div[1]/div/div/label').click()
+  cy.contains('p','Billing').should('be.visible').click( {force:true} ).wait(3000)
+  cy.xpath("//input[@type='Item Description*']").should('be.visible').click()
   cy.contains('p','LOYALTY POINTS REDEEM').click()
   cy.xpath("//input[@placeholder='Reference No*']").click( {force:true}).wait(2000).screenshot()
 

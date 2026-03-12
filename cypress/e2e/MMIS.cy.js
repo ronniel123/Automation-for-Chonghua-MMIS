@@ -7,6 +7,7 @@ describe('MMIS', function() {
     {
         cy.VisitMMIS()
         cy.LoginAccount()
-        cy.BillingManagement()
+        cy.SearchPatient()
+        cy.MergePatient()
     })  
 })

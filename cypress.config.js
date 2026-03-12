@@ -8,6 +8,8 @@ module.exports = defineConfig({
       this.screenshotOnRunFailure=true;
       require('cypress-mochawesome-reporter/plugin')(on); //html reports
     },
+    baseUrl: 'https://dev-mmis.chonghuamedicalmall.com.ph'
   },
   
+ 
 });
