@@ -18,11 +18,11 @@ Cypress.Commands.add('VisitMMIS', () => {
       cy.xpath("//input[@type='text']")
         .should('be.visible')
         .clear()
-        .type('sibimark', { delay: 100 })  //Another Username: shanadmin, sibimark, JHURANO, JTARNATE
+        .type('JHURANO', { delay: 100 })  //Another Username: shanadmin, sibimark, JHURANO, JTARNATE
 
       cy.xpath("//input[@type='password']")
         .clear()
-        .type('Chh@12345', { delay: 100 }) //Another Password: Mmis@1234. , Chh@12345 , Mmis@2024, Admin@1234.
+        .type('Mmis@2024', { delay: 100 }) //Another Password: Mmis@1234. , Chh@12345 , Mmis@2024, Admin@1234.
       cy.xpath("//span[@class='mud-button-label']").click() //click login
       cy.url().should('not.include', 'login')
       cy.wait(9000)
@@ -71,7 +71,35 @@ Cypress.Commands.add('MergePatient', () => {
   cy.get('input[placeholder="Enter Firstname"]')
   .should('be.visible')
   .type('Ronniel', {delay: 100})
-  cy.contains('span', 'Search').click().wait(5000).screenshot('//*[@id="app"]/div[3]/div/div/div[2]')
+  cy.contains('span', 'Search').click().wait(5000).screenshot()
+})
+
+Cypress.Commands.add('OPDList', ()=>{
+  cy.contains('OPD List').should('be.visible').click()
+  .screenshot()
+  cy.get('input[placeholder="Search patient"]').type('OPDZ00009948', {delay:100}).type('{enter}')
+  .screenshot().wait(3500)
+  cy.contains('span', 'PATIENT NO').should('be.visible')
+        .then(($el) => {
+      if ($el.length > 0) {
+        // Data exists → take screenshot
+        cy.screenshot('table tbody tr td:nth-child(3)')
+      } else {
+        // No data → skip
+        cy.log('No data found, screenshot skipped')
+      }
+    })
+  cy.contains('span', 'PATIENT NAME').should('be.visible')
+        .then(($el) => {
+      if ($el.length > 0) {
+        // Data exists → take screenshot
+        cy.screenshot('table tbody tr td:nth-child(4)')
+      } else {
+        // No data → skip
+        cy.log('No data found, screenshot skipped')
+      }
+    })
+
 })
 
 Cypress.Commands.add('BillingManagement', function(){
@@ -93,10 +121,7 @@ Cypress.Commands.add('BillingManagement', function(){
   cy.xpath("//input[@type='Item Description*']").should('be.visible').click()
   cy.contains('p','LOYALTY POINTS REDEEM').click()
   cy.xpath("//input[@placeholder='Reference No*']").click( {force:true}).wait(2000).screenshot()
-
-
 })
-
 
 
 

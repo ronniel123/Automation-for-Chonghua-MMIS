@@ -9,5 +9,6 @@ describe('MMIS', function() {
         cy.LoginAccount()
         cy.SearchPatient()
         cy.MergePatient()
+        cy.OPDList()
     })  
 })
